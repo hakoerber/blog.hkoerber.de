@@ -5,6 +5,8 @@ tags:
 ### Welcome!
 
     #!/usr/bin/env python
-    
+
     import blog
     blog.run()
+
+Nice addition.
