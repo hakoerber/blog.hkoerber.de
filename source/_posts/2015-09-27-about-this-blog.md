@@ -1,9 +1,7 @@
-title: How this blog works
+title: About this blog
 date: 2015-09-27 12:08:15
 tags:
 ---
-### About this blog!
-
 I am going to start this blog with a post about the blog itself. Yesterday, I decided that I wanted to write more. Or rather, write at all. So, off to google, and find a "blogging platform" or whatever it is called. I stumbled about Hexo, and just decided to try it out, because I wanted to get experience with blogging and the accompanying software.
 
 [Hexo](https://hexo.io/) is not actually a complete blogging platform, but simply a static site generator. It takes markdown files, and turns them into nice HTML files with CSS and everything. The big advantage of this approach is that you can write those markdown files in whichever way you like.
@@ -106,6 +104,12 @@ Because I don't really care about the commit messages in this case, I also wrote
     git push server master
 
 This assumes the local blog repository is in `~/projects/blog` and the remote is simply called `server`.
+
+Now with a simple
+
+    $ publish-blog
+
+all changes are pushed to the server, the static content is generated and can be accessed over the internet. As everything is in git, a post can easily be removed with `git revert`.
 
 #### Preview server
 
