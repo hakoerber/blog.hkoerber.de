@@ -1,0 +1,19 @@
+<footer class="section has-background-white">
+  <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {{ partial "social-follow.html" . }}
+      </div>
+      <a class="level-item px-5" href="https://www.credly.com/badges/870a6345-ed4e-416e-9c46-c9af9c6d2c77/public_url" title="AWS Certified Solutions Architect – Associate">
+        <figure class="image is-48x48">
+          <img src="/assets/badges/aws-certified-solutions-architect-associate.png">
+        </figure>
+      </a>
+    </div>
+    <div class="level-right">
+      <div class="has-text-centered level-item">
+        <a class="has-text-black" href="https://code.hkoerber.de/hannes/blog"><span class="far fa-copyright"></span>&nbsp;{{ now.Format "2006" }}&nbsp;{{ .Site.Params.author }}</a>
+      </div>
+    </div>
+  </div>
+</footer>

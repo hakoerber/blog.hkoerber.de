@@ -1,0 +1,20 @@
+{{ define "content" }}
+  <div class="content section">
+    <h1 class="subtitle is-3 has-text-centered has-text-weight-normal">All posts with the {{ title .Data.Singular }} "{{ .Title }}"</h1>
+    <table class="table is-striped is-hoverable is-bordered mt-6">
+      <tbody>
+        {{ range (index .Site.Taxonomies.tags .Data.Term) }}
+          <tr>
+            <td>
+              <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+            </td>
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <div class="section">
+    <a href={{ printf "/%s" .Data.Plural }}>List of all {{ .Data.Plural }}</a>
+  </div>
+{{ end }}

@@ -1,0 +1,14 @@
+{{ define "content" }}
+  <div class="content section">
+    <h1 class="subtitle is-3 has-text-centered has-text-weight-normal">List of all {{ title .Data.Plural }}</h1>
+    <div class="is-flex is-flex-direction-column is-flex-wrap-wrap">
+      <ul class="mt-6">
+        {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+          {{ with $.Site.GetPage (printf "/%s" $name) }}
+            <li><span class="tag has-background-grey-lighter is-medium"><a href="{{ .Permalink }}">{{ $name }}</a></span></li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+{{ end }}

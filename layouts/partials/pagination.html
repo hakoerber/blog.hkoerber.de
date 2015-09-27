@@ -1,0 +1,74 @@
+{{- $pag := $.Paginator -}}
+{{- if gt $pag.TotalPages 1 -}}
+<nav class="pagination is-centered" aria-label="pagination">
+  <a
+    class="pagination-previous{{ if not $pag.HasPrev }} is-invisible {{- end }}"
+    {{ if $pag.HasPrev -}} href="{{ $pag.Prev.URL }}" {{- end }}
+    aria-label="Previous page">
+    <span class="is-hidden-touch">&larr;&nbsp;</span> Previous
+  </a>
+  <a
+    class="pagination-next{{ if not $pag.HasNext }} is-invisible {{- end }}"
+    {{ if $pag.HasNext -}} href="{{ $pag.Next.URL }}" {{- end }}
+    aria-label="Next page">
+    Next<span class="is-hidden-touch">&nbsp;&rarr;</span>
+  </a>
+
+  <ul class="pagination-list">
+    {{- with $pag.First -}}
+    <li>
+      <a
+      href="{{- .URL -}}"
+      class="pagination-link{{ if (eq $pag.PageNumber 1) }} is-current {{- end }}"
+      aria-label="First page">
+        1
+      </a>
+    </li>
+    {{- end -}}
+
+    {{- $ellipse_already_printed_high := false -}}
+    {{- $ellipse_already_printed_low := false -}}
+
+    {{/* all pages but the first and the last */}}
+    {{- range $pag.Pagers | first (sub (len $pag.Pagers) 1) | last (sub (len $pag.Pagers) 2) -}}
+
+      {{- if gt (sub .PageNumber $pag.PageNumber) 1 -}}
+        {{- if not (eq $ellipse_already_printed_high true) -}}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {{- $ellipse_already_printed_high = true -}}
+        {{- end -}}
+
+      {{- else if gt (sub $pag.PageNumber .PageNumber) 1 -}}
+        {{- if not (eq $ellipse_already_printed_low true) -}}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {{- $ellipse_already_printed_low = true -}}
+        {{- end -}}
+
+      {{- else -}}
+        {{- $is_current := eq .PageNumber $pag.PageNumber -}}
+        <li>
+          <a
+            href="{{- .URL -}}"
+            class="pagination-link{{ if $is_current }} is-current {{- end }}"
+            aria-label="Page number {{ .PageNumber }}"
+            {{ if $is_current }}aria-current="page"{{ end }}>
+              {{- .PageNumber -}}
+          </a>
+        </li>
+      {{- end -}}
+    {{- end -}}
+
+    {{- with $pag.Last -}}
+    <li>
+      <a
+        href="{{- .URL -}}"
+        class="pagination-link{{ if (eq $pag.PageNumber .PageNumber) }} is-current {{- end }}"
+        aria-label="Last page">
+        {{- .PageNumber -}}
+      </a>
+    </li>
+    {{- end -}}
+
+  </ul>
+</nav>
+{{- end -}}

@@ -1,0 +1,222 @@
+{{ define "content" }}
+  {{ $column_count := 2 }}
+  {{ $project_count := len .Params.projects }}
+  {{ $contribution_count := len .Params.contributions }}
+  <div class="section">
+    <div class="columns is-variable is-6">
+      <div class="column">
+        <h1 class="subtitle is-3 has-text-centered has-text-weight-normal mb-3">Projects</h1>
+        <hr>
+        <div class="tile is-ancestor mt-3">
+          <div class="tile is-vertical">
+            {{ range $i := (seq 0 $column_count $project_count) }}
+              <div class="tile is-block-touch">
+                {{ $projects_in_row := first $column_count (after $i $.Params.projects) }}
+                {{ range $projects_in_row }}
+                  <div class="tile is-parent">
+                    <div class="tile is-child card has-background-success-light" style="display: flex;flex-direction: column;">
+                      <div class="card-header">
+                        <div class="card-header-title is-centered">
+                          {{ .name }}
+                        </div>
+                      </div>
+
+                      {{ with .image }}
+                        {{ $type := .type|default "picture"  }}
+                        {{ if (eq $type "picture") }}
+                        <div class="card-image">
+                          <figure class="image">
+                            <img src="{{ .path }}" alt="{{ .alt }}">
+                          </figure>
+                        </div>
+                        {{ else if (eq $type "picture-padded") }}
+                        <div class="card-image">
+                          <figure class="image py-4 px-4">
+                            <img src="{{ .path }}" alt="{{ .alt }}">
+                          </figure>
+                        </div>
+                        {{ end }}
+                      {{ end }}
+
+                      <div class="card-content" style="display: flex; flex-direction: column; flex-grow: 1;">
+                        {{ with .icon }}
+                          <div class="level">
+                            <div class="level-item">
+                              <figure class="image is-96x96">
+                                <img src="{{ .path }}" alt="{{ .alt }}">
+                              </figure>
+                            </div>
+                          </div>
+                        {{ end }}
+
+                        <div class="content">
+                          {{ range .description }}
+                            <p>
+                              {{ .|markdownify}}
+                            </p>
+                          {{ end }}
+                        </div>
+
+                        <div class="block" style="margin-top: auto;">
+                          <div class="field is-grouped is-grouped-multiline">
+                            {{ range .tags }}
+                              <div class="control">
+                                <div class="tags has-addons">
+                                  {{ $color := "" }}
+                                  {{ if eq .type "language" }}
+                                    {{ $color = "info" }}
+                                  {{ else if eq .type "tech" }}
+                                    {{ $color = "success" }}
+                                  {{ else }}
+                                    {{ errorf "Unknown tag type \"%s\"" .type }}
+                                  {{ end }}
+                                  <span class="tag is-dark">{{ .type }}</span>
+                                  <span class="tag is-{{ $color }}">{{ .value|title }}</span>
+                                </div>
+                              </div>
+                            {{ end }}
+                          </div>
+                        </div>
+                      </div>
+                      <footer class="card-footer" style="margin-top: auto;">
+                        <p class="card-footer-item" style="margin-bottom: 0;">
+                          <span>
+                            <span class="icon">
+                              <i class="fab fa-github"></i>
+                            </span>
+                            View on <a href="{{ .links.github }}">GitHub</a>
+                          </span>
+                        </p>
+                        {{ if isset .links "projectpage" }}
+                          <p class="card-footer-item">
+                            <span>
+                              <span class="icon">
+                                <i class="fas fa-info-circle"></i>
+                              </span>
+                              See <a href="{{ .links.github }}">Project Page</a>
+                            </span>
+                          </p>
+                        {{ end }}
+                      </footer>
+                    </div>
+                  </div>
+                {{ end }}
+                {{/* Pad the last row with empty space */}}
+                {{ if (lt (len $projects_in_row) $column_count) }}
+                {{ range (seq 1 (sub $column_count (len $projects_in_row))) }}
+                  <div class="tile is-parent">
+                    <div class="tile is-child">
+                    </div>
+                  </div>
+                {{ end }}
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <h1 class="subtitle is-3 has-text-centered has-text-weight-normal mb-3">Contributions</h1>
+        <hr>
+        <div class="tile is-ancestor mt-3">
+          <div class="tile is-vertical">
+            {{ range $i := (seq 0 $column_count $contribution_count) }}
+              <div class="tile is-block-touch">
+                {{ $contributions_in_row := first $column_count (after $i $.Params.contributions) }}
+                {{ range $contributions_in_row }}
+                  <div class="tile is-parent">
+                    <div class="tile is-child has-background-info-light card" style="display: flex;flex-direction: column;">
+                      <div class="card-header">
+                        <div class="card-header-title is-centered">
+                          {{ .name }}
+                        </div>
+                      </div>
+
+                      {{ with .image }}
+                        {{ $type := .type|default "picture"  }}
+                        {{ if (eq $type "picture") }}
+                        <div class="card-image">
+                          <figure class="image">
+                            <img src="{{ .path }}" alt="{{ .alt }}">
+                          </figure>
+                        </div>
+                        {{ end }}
+                      {{ end }}
+
+                      <div class="card-content" style="display: flex; flex-direction: column; flex-grow: 1;">
+                        {{ with .icon }}
+                          <div class="level">
+                            <div class="level-item">
+                              <figure class="image is-96x96">
+                                <img src="{{ .path }}" alt="{{ .alt }}">
+                              </figure>
+                            </div>
+                          </div>
+                        {{ end }}
+
+                        <div class="content">
+                          {{ if eq (len .changes) 1 }}
+                            <p>
+                              {{ markdownify (index .changes 0) }}
+                            </p>
+                          {{ else }}
+                            <ul>
+                            {{ range .changes }}
+                              <li>
+                                {{ markdownify . }}
+                              </li>
+                            {{ end }}
+                            </ul>
+                          {{ end }}
+                        </div>
+                        <div class="block" style="margin-top: auto;">
+                          <div class="field is-grouped is-grouped-multiline">
+                            {{ range .tags }}
+                              <div class="control">
+                                <div class="tags has-addons">
+                                  {{ $color := "" }}
+                                  {{ if eq .type "language" }}
+                                    {{ $color = "info" }}
+                                  {{ else if eq .type "tech" }}
+                                    {{ $color = "success" }}
+                                  {{ else }}
+                                    {{ errorf "Unknown tag type \"%s\"" .type }}
+                                  {{ end }}
+                                  <span class="tag is-dark">{{ .type }}</span>
+                                  <span class="tag is-{{ $color }}">{{ .value|title }}</span>
+                                </div>
+                              </div>
+                            {{ end }}
+                          </div>
+                        </div>
+                      </div>
+                      <footer class="card-footer" style="margin-top: auto;">
+                        <p class="card-footer-item">
+                          <span>
+                            <span class="icon">
+                              <i class="fab fa-github"></i>
+                            </span>
+                            View on <a href="{{ .links.github }}">GitHub</a>
+                          </span>
+                        </p>
+                      </footer>
+                    </div>
+                  </div>
+                {{ end }}
+                {{/* Pad the last row with empty space */}}
+                {{ if (lt (len $contributions_in_row) $column_count) }}
+                {{ range (seq 1 (sub $column_count (len $contributions_in_row))) }}
+                  <div class="tile is-parent">
+                    <div class="tile is-child">
+                    </div>
+                  </div>
+                {{ end }}
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

@@ -1,0 +1,31 @@
+---
+sites:
+  - fa_icon: fa-map-marker
+    name: Ansbach, Germany
+  - url: "https://www.tradebyte.com/"
+    fa_icon: " fa-suitcase"
+    name: Tradebyte Software GmbH
+  - url: "https://github.com/hakoerber"
+    fa_icon: "fa-github"
+    name: Github
+  - url: "https://gitlab.com/whatevsz"
+    fa_icon: "fa-gitlab"
+    name: Gitlab
+  - url: "https://code.hkoerber.de/explore/projects"
+    fa_icon: "fa-code"
+    name: Code
+  - url: "https://www.linkedin.com/in/hannes-k%C3%B6rber-479ab5122"
+    fa_icon: "fa-linkedin-square"
+    name: LinkedIn
+  - url: "https://twitter.com/whatevsz"
+    fa_icon: "fa-twitter-square"
+    name: Twitter
+  - url: "https://keybase.io/hakoerber"
+    fa_icon: "fa-lock"
+    name: Keybase
+  - url: "mailto:hannes.koerber@gmail.com"
+    fa_icon: "fa-envelope"
+    name: E-Mail
+  - url: "https://status.haktec.de"
+    fa_icon: "fa-plus-circle"
+    name: Status

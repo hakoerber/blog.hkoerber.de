@@ -1,0 +1,119 @@
+baseURL: http://localhost:1313/
+title: Hannes Körber
+uglyurls: false
+disablePathToLower: true
+languageCode: en
+canonifyURLs: false
+# pygmentsStyle: "monokai"
+pygmentsCodefences: true
+pygmentsUseClasses: true
+MetaDataFormat: yaml
+
+enableRobotsTXT: true
+
+frontmatter:
+  date:
+    - date
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+taxonomies:
+  tag: tags
+  category: categories
+
+related:
+  threshold: 50
+  includeNewer: true
+  toLower: true
+  indices:
+  - name: tags
+    weight: 100
+  - name: keywords
+    weight: 50
+  - name: date
+    weight: 10
+
+author: Hannes Körber
+params:
+  description: "My Blog"
+  author: Hannes Körber
+  social:
+    - name: github
+      link: https://github.com/hakoerber
+      icon: fa-github
+      style: fab
+    - name: gitlab
+      link: https://gitlab.com/whatevsz
+      icon: fa-gitlab
+      style: fab
+    - name: linkedin
+      link: https://www.linkedin.com/in/hannes-koerber
+      icon: fa-linkedin
+      style: fab
+    - name: xing
+      link: https://www.xing.com/profile/Hannes_Koerber
+      icon: fa-xing
+      style: fab
+    - name: keybase
+      link: https://keybase.io/hakoerber
+      icon: fa-key
+      style: fas
+    # - name: twitter
+    #   link: https://twitter.com/whatevsz
+    #   icon: fa-twitter
+    #   style: fab
+    - name: E-Mail
+      link: mailto:hannes.koerber@gmail.com
+      icon: fa-envelope
+      style: fas
+      description: Send me a mail!
+    - name: RSS
+      link: /blog/index.xml
+      icon: fa-rss
+      style: fas
+      description: Follow my blog on RSS!
+
+
+permalinks:
+  blog: /:section/:year/:month/:day/:title/
+
+menu:
+  main:
+    - name: "Blog"
+      url : "/blog/"
+      weight: 1
+
+    - name: "Skills"
+      url : "/skills/"
+      weight: 2
+
+    - name: "Projects"
+      url : "/projects/"
+      weight: 3
+
+    - name: "About Me"
+      url : "/about/"
+      weight: 4
+
+    - name: "More"
+      identifier: more
+      weight: 5
+
+    - name: "Work"
+      url : "/work/"
+      parent: more
+      weight: 2
+
+
+    - name: "Events"
+      url: "/events/"
+      parent: more
+      weight: 4
+
+    - name: "Talks"
+      url: "/talks/"
+      parent: more
+      weight: 5

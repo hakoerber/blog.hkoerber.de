@@ -1,0 +1,32 @@
+{{ define "content" }}
+  <div class="section">
+    <h1 class="subtitle is-3 has-text-centered has-text-weight-normal">{{- title .Title -}}</h1>
+    <div class="content mt-6">
+      <table class="table is-striped is-hoverable is-bordered">
+        <thead>
+          <tr>
+            {{ range slice "Title" "Date" }}
+              <th>{{ . }}</th>
+            {{ end }}
+          </tr>
+        </thead>
+        <tbody>
+          {{ range ((where .Site.RegularPages "Type" "blog") | complement (slice .)) }}
+            <tr>
+              <td>
+                <a href="{{ .Params.Permalink }}">
+                  {{ .Title }}
+                </a>
+              </td>
+              <td>
+                <time datetime="{{- dateFormat "2006-01-02" .Date -}}">
+                  {{- dateFormat "2006-01-02" .Date -}}
+                </time>
+              </td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{{ end }}

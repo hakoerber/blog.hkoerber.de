@@ -1,0 +1,37 @@
+/* Otherwise, URLs might cause horizontal scrolling */
+.content {
+    overflow-wrap: break-word;
+}
+
+/* Not supported by bulma right now */
+.is-smallcaps {
+    font-variant: small-caps;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#footer-fix-body-wrapper {
+    flex: 1;
+}
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  justify-content: center;
+}
+
+.tech-logo-container {
+  height: 48px;
+  width: auto;
+  max-width: 48px;
+}
+
+.tech-logo-container > img {
+  width: auto;
+  height: 100%;
+}

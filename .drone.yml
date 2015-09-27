@@ -1,0 +1,120 @@
+kind: pipeline
+type: kubernetes
+name: release
+trigger:
+  branch:
+  - master
+  - develop
+steps:
+- name: submodules
+  image: alpine/git
+  commands:
+  - git submodule update --recursive --remote --init
+
+- name: production:build
+  when:
+    branch:
+    - master
+  image: docker.io/klakegg/hugo:0.82.0-alpine
+  commands:
+  - >-
+    hugo
+    --baseURL=https://hkoerber.de/
+    --cleanDestinationDir
+    --minify
+    --environment production
+    --destination ./public/
+  - chmod -R o+rX ./public/
+
+- name: preview:build
+  image: docker.io/klakegg/hugo:0.82.0-alpine
+  when:
+    branch:
+    - develop
+  commands:
+  - >-
+    hugo
+    --baseURL=https://preview.hkoerber.de/
+    --cleanDestinationDir
+    --minify
+    --buildDrafts
+    --buildFuture
+    --environment preview
+    --destination ./public/
+  - chmod -R o+rX ./public/
+
+- name: production:image
+  image: registry.hkoerber.de/drone-kaniko:latest
+  when:
+    branch:
+    - master
+  settings:
+    dockerfile: Dockerfile.nginx
+    registry: registry.hkoerber.de
+    repo: blog
+    tags:
+    - ${DRONE_COMMIT_SHA}
+
+- name: preview:image
+  image: registry.hkoerber.de/drone-kaniko:latest
+  when:
+    branch:
+    - develop
+  settings:
+    dockerfile: Dockerfile.nginx
+    registry: registry.hkoerber.de
+    repo: blog
+    tags:
+    - ${DRONE_COMMIT_SHA}-preview
+
+- name: production:update k8s
+  image: alpine/git
+  when:
+    branch:
+    - master
+  commands:
+  # the explicit setting of the env variables is required because drone does
+  # not "export" the environment variables set with "environment:", they are
+  # only usable inside the scripts.
+  - export GIT_AUTHOR_NAME="Drone"
+  - export GIT_AUTHOR_EMAIL="drone@hkoerber.de"
+  - export GIT_COMMITTER_NAME="$$GIT_AUTHOR_NAME"
+  - export GIT_COMMITTER_EMAIL="$$GIT_AUTHOR_EMAIL"
+  - git clone https://code.hkoerber.de/hannes/mycloud mycloud
+  - cd mycloud/k8s/manifests/blog
+  - "sed -i 's#image: registry.hkoerber.de/blog:.*$#image: registry.hkoerber.de/blog:${DRONE_COMMIT_SHA}#' 50-deployment.yaml"
+  # Check if file actually changed, we're done if it did not. Most likely a
+  # pipeline re-run
+  - git diff --exit-code --quiet -- 50-deployment.yaml && exit 0 || true
+  - git add 50-deployment.yaml
+  - >-
+    git commit
+    -m 'k8s: Update blog container image'
+    -m "Triggered in repo $DRONE_REPO by commit $DRONE_COMMIT"
+  - git push origin master
+
+- name: preview:update k8s
+  image: alpine/git
+  when:
+    branch:
+    - develop
+  commands:
+  # the explicit setting of the env variables is required because drone does
+  # not "export" the environment variables set with "environment:", they are
+  # only usable inside the scripts.
+  - export GIT_AUTHOR_NAME="Drone"
+  - export GIT_AUTHOR_EMAIL="drone@hkoerber.de"
+  - export GIT_COMMITTER_NAME="$$GIT_AUTHOR_NAME"
+  - export GIT_COMMITTER_EMAIL="$$GIT_AUTHOR_EMAIL"
+  - git clone https://code.hkoerber.de/hannes/mycloud mycloud
+  - cd mycloud/k8s/manifests/blog-preview
+  - "sed -i 's#image: registry.hkoerber.de/blog:.*$#image: registry.hkoerber.de/blog:${DRONE_COMMIT_SHA}-preview#' 50-deployment.yaml"
+  # Check if file actually changed, we're done if it did not. Most likely a
+  # pipeline re-run
+  - git diff --exit-code --quiet -- 50-deployment.yaml && exit 0 || true
+  - git add 50-deployment.yaml
+  - >-
+    git commit
+    -m 'k8s: Update blog preview container image'
+    -m "Triggered in repo $DRONE_REPO by commit $DRONE_COMMIT"
+  - git push origin master

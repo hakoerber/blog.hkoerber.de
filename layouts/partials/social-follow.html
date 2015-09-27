@@ -1,0 +1,9 @@
+<div class="buttons">
+  {{ range $social := .Site.Params.social }}
+  <a href="{{ $social.link }}" class="button" title="{{ $social.description | default (printf "Me on %s" $social.name|title) }}">
+    <span class="icon is-medium">
+      <i class="{{ $social.style }} {{ $social.icon }} fa-lg"></i>
+    </span>
+  </a>
+  {{ end }}
+</div>

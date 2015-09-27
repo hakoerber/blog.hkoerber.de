@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="{{ $.Site.LanguageCode | default "en" }}">
+  {{ partial "html-head.html" . }}
+
+  <body class="has-navbar-fixed-top">
+    <div id="footer-fix-body-wrapper">
+      {{ block "header" . }}{{ partial "header.html" .}}{{ end }}
+      <main>
+        <div class="columns is-gapless is-centered is-mobile">
+          <div class="column is-12 is-11-widescreen is-10-fullhd" style="max-width:80em;">
+            <div class="content">
+              {{ block "content" . }}{{ end }}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    {{ block "footer" . }}{{ partial "site-footer.html" . }}{{ end }}
+  </body>
+</html>

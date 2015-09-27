@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 118.30999 118.31"
+   version="1.1"
+   sodipodi:docname="cadvisor.svg"
+   width="118.31"
+   height="118.31"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata27">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1038"
+     id="namedview25"
+     showgrid="false"
+     inkscape:zoom="1.283207"
+     inkscape:cx="646.02344"
+     inkscape:cy="3.6670144"
+     inkscape:window-x="3840"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#0d1733}.cls-2{fill:#0ba2ff}.cls-3{fill:#0051d3}.cls-4{fill:#3be3ff}</style>
+  </defs>
+  <title
+     id="title6">ccadvisor_logo</title>
+  <path
+     class="cls-1"
+     d="M 0,0 H 118.31 V 118.31 H 0 Z"
+     id="path8"
+     inkscape:connector-curvature="0"
+     style="fill:#0d1733" />
+  <path
+     class="cls-2"
+     d="m 18.08,18.08 h 82.15 v 82.15 H 18.08 Z"
+     id="path10"
+     inkscape:connector-curvature="0"
+     style="fill:#0ba2ff" />
+  <path
+     class="cls-3"
+     d="M 100.23,100.23 59.16,59.16 18.08,100.23 Z"
+     id="path12"
+     inkscape:connector-curvature="0"
+     style="fill:#0051d3" />
+  <path
+     class="cls-4"
+     d="M 18.08,18.08 59.16,59.16 100.23,18.08 Z"
+     id="path14"
+     inkscape:connector-curvature="0"
+     style="fill:#3be3ff" />
+</svg>

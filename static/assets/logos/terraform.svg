@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 52.799999 59.999998"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="terraform.svg"
+   width="52.799999"
+   height="60"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1038"
+     id="namedview14"
+     showgrid="false"
+     inkscape:zoom="3.4054263"
+     inkscape:cx="179.02792"
+     inkscape:cy="-17.054848"
+     inkscape:window-x="3840"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg12" />
+  <path
+     class="rect-dark"
+     d="M 36.4,20.05 V 38.98 L 52.8,29.52 V 10.57 Z"
+     id="path6"
+     inkscape:connector-curvature="0"
+     style="fill:#4040b2" />
+  <path
+     class="rect-light"
+     d="m 18.2,10.57 16.4,9.48 V 38.98 L 18.2,29.51 Z"
+     id="path8"
+     inkscape:connector-curvature="0"
+     style="fill:#5c4ee5" />
+  <path
+     class="rect-light"
+     d="m 0,0 v 18.94 l 16.4,9.47 V 9.47 Z M 18.2,50.53 34.6,60 V 41.06 L 18.2,31.59 Z"
+     id="path10"
+     inkscape:connector-curvature="0"
+     style="fill:#5c4ee5" />
+</svg>

@@ -1,0 +1,47 @@
+{{ define "content" }}
+  <div class="columns is-gapless is-mobile is-centered">
+    <div class="column is-12 is-8-desktop is-offset-2-desktop" style="max-width:80ch;">
+      <article class="section">
+        <h1 class="subtitle is-3 has-text-centered has-text-weight-normal">
+          {{ if (default true (.Params.titlecase)) }}
+          {{- title .Title -}}
+          {{ else }}
+          {{- .Title -}}
+          {{ end }}
+        </h1>
+        <div class="content has-text-centered is-size-6 mt-4">
+          <time datetime="{{- .Date.Format "2006-01-02" -}}">
+            {{- .Date.Format "2006-01-02" -}}
+          </time>
+          {{ if not (eq .Lastmod .Date) }}
+            <time datetime="{{- .Date.Format "2006-01-02" -}}">
+              (last update:&nbsp{{- .Lastmod.Format "2006-01-02" -}})
+            </time>
+          {{ end }}
+        </div>
+        <hr class="my-6">
+
+        <div class="content is-normal">
+          {{- .Content -}}
+        </div>
+        <div class="columns section">
+          <div class="column">
+            {{ if ne .Params.tags nil }}
+            <div class="content">
+              <h3>Tags</h3>
+              <div class="tags">
+                {{ range .Params.tags }}
+                <span class="tag has-background-grey-lighter is-medium"><a href="{{ ($.Site.GetPage (printf "/%s" .)).Permalink }}">{{ . }}</a></span>
+                {{ end }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+          <div class="column">
+            {{- partial "related.html" . -}}
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+{{ end }}

@@ -1,0 +1,28 @@
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+
+  <meta name="author" content="{{ $.Site.Params.author }}">
+  <meta name="description" content="{{ $.Site.Params.description }}">
+  {{ if .Page.Title }}
+    <title>{{ .Page.Title }} &ndash; {{ .Site.Title | safeHTML }}</title>
+  {{ else }}
+    <title>{{ .Site.Title | safeHTML }}</title>
+  {{ end }}
+
+  {{ hugo.Generator }}
+
+  {{ if .Site.Params.allow_robots }}
+    <meta name="robots" content="all">
+  {{ else }}
+    <meta name="robots" content="noindex, nofollow">
+  {{ end }}
+
+  <link rel="stylesheet" href="/css/main.css" >
+  <link rel="stylesheet" href="/css/syntax.css" >
+  <link rel="stylesheet" href="/fonts/fontawesome/css/all.css">
+  <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
+</head>

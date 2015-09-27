@@ -1,0 +1,7 @@
+User-agent: *
+{{ if .Site.Params.allow_robots -}}
+Disallow: /assets/
+Disallow: /keybase.txt
+{{ else -}}
+Disallow: /
+{{ end }}

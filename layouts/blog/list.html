@@ -1,0 +1,45 @@
+{{ define "content" }}
+  <div class="section">
+    <div class="columns is-mobile is-centered">
+      <div class="column is-8-desktop" style="max-width:45em;">
+        {{ range (.Paginate (where .Site.RegularPages "Type" "blog") 5).Pages }}
+          <div class="box">
+            <div class="content">
+              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            </div>
+
+            <div class="content">
+            {{ if isset .Params "summary" }}
+              {{ .Params.summary }}
+            {{ else }}
+              {{ .Summary }}
+            {{ end }}
+            </div>
+
+            <hr>
+            <div class="columns is-mobile">
+              <div class="column is-narrow">
+                <time>{{ .Date.Format "2006-01-02" }}</time>
+              </div>
+              <div class="column is-clearfix">
+                <div class="tags is-pulled-right">
+                  {{ range .Params.tags }}
+                    <span class="tag is-medium"><a href="{{ "/tags/" }}{{ . }}"> {{ . }} </a></span>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {{ end }}
+
+        <hr>
+
+        {{ partial "pagination.html" . }}
+        <div class="content is-pulled-right">
+        <a href="/blog/list" class="is-size-7">See list of all posts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

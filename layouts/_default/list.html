@@ -1,0 +1,12 @@
+{{ define "content" }}
+  <div class="section">
+    {{ if isset .Params "title" }}
+      <h1 class="subtitle is-3 has-text-centered has-text-weight-normal">{{- title .Title -}}</h1>
+    {{ end }}
+
+    {{- .Content -}}
+    <div class="mt-6">
+      {{- partial "pagelist-default.html" . -}}
+    </div>
+  </div>
+{{ end }}
