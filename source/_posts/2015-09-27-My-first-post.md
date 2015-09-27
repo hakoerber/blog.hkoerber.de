@@ -1,12 +1,6 @@
-title: My first post.
-date: 2015-09-27 03:57:36
+title: How this blog works
+date: 2015-09-27 12:08:15
 tags:
 ---
-### Welcome!
+### About this blog!
 
-    #!/usr/bin/env python
-
-    import blog
-    blog.run()
-
-I removed some stuff.
