@@ -4,9 +4,11 @@ tags:
 ---
 ### About this blog!
 
-I am going to start this blog with a post about the blog itself. Yesterday, I decided that I wanted to write more. Or rather, write at all. So, off to google, and find a "blogging platform" or whatever it is called. I stumbled about Hexo, and just decided to try it out, because of my zero experience with blogging and the accompanying software.
+I am going to start this blog with a post about the blog itself. Yesterday, I decided that I wanted to write more. Or rather, write at all. So, off to google, and find a "blogging platform" or whatever it is called. I stumbled about Hexo, and just decided to try it out, because I wanted to get experience with blogging and the accompanying software.
 
 [Hexo](https://hexo.io/) is not actually a complete blogging platform, but simply a static site generator. It takes markdown files, and turns them into nice HTML files with CSS and everything. The big advantage of this approach is that you can write those markdown files in whichever way you like.
+
+Also, setup is much easier than with a complete, integrated solution like WordPress. You do not need a database, it's much more lightweight and one can change to another platform more easily. There are far fewer security concerns, too. Static content served by a webserver without and backend for PHP or whatever just provides a very small attack surface.
 
 #### The content
 
@@ -35,7 +37,7 @@ I am not going to show all the stuff Hexo is capable off, you can read through [
 
 #### Serving the content
 
-In the end, we get some publishable HTML files with CSS and everything in the `public/` subfolder. For "production" use, I am simply going to deploy [nginx](http://nginx.org/) to serve these static files. All of this is deployed on a dedicated blogging virtual machine on my home server. Because I do not have a publicly reachable IPv4 address (yay CGNAT!), a small [DigitalOcean](https://www.digitalocean.com/) as a reverse proxy over a VPN.
+In the end, we get some publishable HTML files with CSS and everything in the `public/` subfolder. For "production" use, I am simply going to deploy [nginx](http://nginx.org/) to serve these static files. All of this is deployed on a dedicated blogging virtual machine on my home server. Because I do not have a publicly reachable IPv4 address (yay CGNAT!), a small [DigitalOcean](https://www.digitalocean.com/) droplet serves as a reverse proxy over a VPN.
 
 Because the content is simply a static web page, there is no need for a database or web framework or anything, and serving the content is super fast! The following nginx configuration is enough, assuming your Hexo root is in `/var/lib/hexo/blog` and is readable by group `hexo`:
 
