@@ -9,12 +9,4 @@ tags:
     import blog
     blog.run()
 
-Nice addition.
-
-Some other little addition.
-
-More additions!
-
-Even more stuff.
-
-Additions.
+I deleted some stuff.
