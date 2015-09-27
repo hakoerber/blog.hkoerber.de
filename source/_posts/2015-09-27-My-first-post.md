@@ -9,4 +9,4 @@ tags:
     import blog
     blog.run()
 
-I deleted some stuff.
+I removed some stuff.
