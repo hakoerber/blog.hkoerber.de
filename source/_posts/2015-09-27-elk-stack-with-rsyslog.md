@@ -1,4 +1,4 @@
-title: Using the ELK stack with rsyslog
+title: Using The ELK Stack With Rsyslog
 date: 2015-09-27 18:06:15
 tags:
 ---
