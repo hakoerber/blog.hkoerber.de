@@ -15,7 +15,7 @@ Let's start with an overview of what we get in the end:
 The setup uses rsyslog to send two different kinds of logs to the logserver: the good old `syslog`, and logfiles written by applications, for example nginx access logs. Both will be formatted as JSON and sent to the logserver via TCP for further processing. Every message has certain attributes that describes their origin:
 
   * `host`: identifes the host that sent the message, subfields are `ip` and `name`
-  * `type`: can either be `syslog` or `application and distinguishes a syslog entry from an application logfile
+  * `type`: can either be `syslog` or `application` and distinguishes a syslog entry from an application logfile
   * `content`: the actual log message
 
 `content` can either be a string (in case of a logfile, this is simply a line in the file) or a dictionary that contains attributes of the message. For syslog, these attributes are:
