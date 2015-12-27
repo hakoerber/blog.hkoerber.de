@@ -97,7 +97,6 @@ Because I don't really care about the commit messages in this case, I also wrote
     #!/usr/bin/env bash
 
     cd ~/projects/blog || exit 1
-    git add --all
     git commit --message="Update $(date +%F)"
     git push server master
 
@@ -105,9 +104,10 @@ This assumes the local blog repository is in `~/projects/blog` and the remote is
 
 Now with a simple
 
+    $ git add <post>
     $ publish-blog
 
-all changes are pushed to the server, the static content is generated and can be accessed over the internet. As everything is in git, a post can easily be removed with `git revert`.
+a new post is pushed to the server, the static content is generated and can be accessed over the internet. As everything is in git, a post can easily be removed with `git revert`.
 
 #### Preview server
 
