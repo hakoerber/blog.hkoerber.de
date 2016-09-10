@@ -3,6 +3,15 @@ date: 2016-09-08 22:44:43
 tags:
 ---
 
+## Network overview:
+
+`10.3.1.0`: network `storage`
+`10.4.1.0`: network `cluster`
+
+`10.x.1.10-19`: Ceph Monitors
+`10.x.1.20-`: Ceph Storage Servers
+
+
 ## Getting the Cluster up and running
 
 ### Installing the hypervisor
@@ -134,7 +143,7 @@ chown -R hannes:hannes /home/hannes
 Network configuration
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-bond0
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-bond0
 ---
 DEVICE=bond0
 TYPE=Bond
@@ -145,7 +154,7 @@ BONDING_OPTS="mode=1 miimon=100"
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-eno1
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-eno1
 ---
 DEVICE=eno1
 ONBOOT=yes
@@ -156,7 +165,7 @@ SLAVE=yes
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-eno2
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-eno2
 ---
 DEVICE=eno2
 ONBOOT=yes
@@ -167,7 +176,7 @@ SLAVE=yes
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-bond0.30
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-bond0.30
 ---
 DEVICE=bond0.30
 ONBOOT=yes
@@ -179,7 +188,7 @@ BRIDGE=br-home
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-br-home
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-br-home
 ---
 DEVICE=br-home
 ONBOOT=yes
@@ -189,7 +198,7 @@ BOOTPROTO=dhcp
 
 Check the RAID Setup:
 ```
-# cat /proc/mdstat
+[root@hyper01]# cat /proc/mdstat
 Personalities : [raid1]
 md126 : active raid1 sdb2[0] sda2[1]
       122489856 blocks super 1.2 [2/2] [UU]
@@ -205,46 +214,46 @@ unused devices: <none>
 Update the system:
 
 ```
-# yum update
+[root@hyper01]# yum update
 ```
 
 Enable passwordless sudo:
 
 ```
-# groupadd --system sudo
-# echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-# gpasswd -a hannes sudo
+[root@hyper01]# groupadd --system sudo
+[root@hyper01]# echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+[root@hyper01]# gpasswd -a hannes sudo
 ```
 
 Disable SSH Password Authentication:
 ```
-# sed -i -e 's/^PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-# systemctl restart sshd
+[root@hyper01]# sed -i -e 's/^PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+[root@hyper01]# systemctl restart sshd
 ```
 
 ### Setting up libvirt
 
 ```
-# yum install libvirt qemu-kvm
+[root@hyper01]# yum install libvirt qemu-kvm
 ```
 
 Everyone in group `libvirt` is allowed to access libvirt:
 
 ```
-# gpasswd -a hannes libvirt
+[root@hyper01]# gpasswd -a hannes libvirt
 ```
 
 Start libvirt:
 
 ```
-# systemctl start libvirtd
-# systemctl enable libvirtd
+[root@hyper01]# systemctl start libvirtd
+[root@hyper01]# systemctl enable libvirtd
 ```
 
 Connect to the hypervisor:
 
 ```
-$ virsh --connect=qemu:///system
+[hannes@hyper01] $ virsh --connect=qemu:///system
 ```
 
 #### libvirt storage setup
@@ -266,11 +275,11 @@ $ virsh --connect=qemu:///system
 Define and start the pool:
 
 ```
-virsh # pool-define pool-lvm-hyper01.xml
-virsh # pool-start lvm-hyper01
-virsh # pool-autostart lvm-hyper01
+[root@hyper01] virsh pool-define pool-lvm-hyper01.xml
+[root@hyper01] virsh pool-start lvm-hyper01
+[root@hyper01] virsh pool-autostart lvm-hyper01
 
-virsh # pool-list --all --details
+[root@hyper01] virsh pool-list --all --details
  Name         State    Autostart  Persistent    Capacity  Allocation   Available
 ---------------------------------------------------------------------------------
  lvm-hyper01  running  yes        yes         116.81 GiB   10.00 GiB  106.81 GiB
@@ -283,14 +292,14 @@ virsh # pool-list --all --details
 Remove the `default` network:
 
 ```
-virsh # net-destroy default
-virsh # net-undefine default
+[root@hyper01] virsh net-destroy default
+[root@hyper01] virsh net-undefine default
 ```
 
 Define the relevant bridges:
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-br-cluster
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-br-cluster
 ---
 DEVICE=br-cluster
 ONBOOT=yes
@@ -299,7 +308,7 @@ BOOTPROTO=none
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-br-storage
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-br-storage
 ---
 DEVICE=br-storage
 ONBOOT=yes
@@ -310,7 +319,7 @@ NETMASK=255.255.255.0
 ```
 
 ```
-# systemctl restart network
+[root@hyper01]# systemctl restart network
 ```
 
 Network definitions:
@@ -337,16 +346,16 @@ Network definitions:
 Start the networks:
 
 ```
-virsh # net-define network-cluster.xml
-virsh # net-define network-storage.xml
+[root@hyper01] virsh net-define network-cluster.xml
+[root@hyper01] virsh net-define network-storage.xml
 
-virsh # net-start cluster
-virsh # net-start storage
+[root@hyper01] virsh net-start cluster
+[root@hyper01] virsh net-start storage
 
-virsh # net-autostart cluster
-virsh # net-autostart storage
+[root@hyper01] virsh net-autostart cluster
+[root@hyper01] virsh net-autostart storage
 
-virsh # net-list --all
+[root@hyper01] virsh net-list --all
  Name                 State      Autostart     Persistent
 ----------------------------------------------------------
  cluster              active     yes           yes
@@ -360,11 +369,11 @@ virsh # net-list --all
 Create the storage volume:
 
 ```
-virsh # vol-create-as --pool lvm-hyper01 --name virt-mon01 --capacity 10GiB --format raw
+[root@hyper01] virsh vol-create-as --pool lvm-hyper01 --name virt-mon01 --capacity 10GiB --format raw
 ```
 
 ```
-# lvdisplay vg.hyper01/virt-mon01
+[root@hyper01] lvdisplay vg.hyper01/virt-mon01
   --- Logical volume ---
   LV Path                /dev/vg.hyper01/virt-mon01
   LV Name                virt-mon01
@@ -442,19 +451,19 @@ Domain definition:
 Define the VM:
 
 ```
-virsh # define domain-ceph-mon01.xml
+[root@hyper01] virsh define domain-ceph-mon01.xml
 ```
 
 Attach the ISO for installation:
 
 ```
-virsh # attach-disk --domain ceph-mon01 --source /var/lib/libvirt/iso/CentOS-7-x86_64-Minimal-1511.iso --target vdz --targetbus virtio --config
+[root@hyper01] virsh attach-disk --domain ceph-mon01 --source /var/lib/libvirt/iso/CentOS-7-x86_64-Minimal-1511.iso --target vdz --targetbus virtio --config
 ```
 
 Start the VM:
 
 ```
-virsh # start ceph-mon01
+[root@hyper01] virsh start ceph-mon01
 ```
 
 Install CentOS, kickstart:
@@ -529,11 +538,11 @@ chown -R hannes:hannes /home/hannes
 How to make the kickstart file available from the hypervisor:
 
 ```
-while :; do nc -l 8080 < ks.cfg ; done
+[root@hyper01]# while :; do nc -l 8080 < ks.cfg ; done
 ```
 
 ```
-dnsmasq -d -i br-storage -I lo --bind-interfaces --dhcp-range=10.3.1.100,10.3.1.199,255.255.255.0 -C /dev/null
+[root@hyper01]# dnsmasq -d -i br-storage -I lo --bind-interfaces --dhcp-range=10.3.1.100,10.3.1.199,255.255.255.0 -C /dev/null
 ```
 
 Install the guest and wait for it to shut down.
@@ -541,13 +550,13 @@ Install the guest and wait for it to shut down.
 Detach the ISO:
 
 ```
-virsh # detach-disk --domain ceph-mon01 --target vdz --config
+[root@hyper01] virsh detach-disk --domain ceph-mon01 --target vdz --config
 ```
 
 Start it again in order to set it up:
 
 ```
-virsh # start ceph-mon01
+[root@hyper01] virsh start ceph-mon01
 ```
 
 Log in, and do the usual deployment stuff.
@@ -556,7 +565,7 @@ Network setup:
 
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-eth0
+ceph-mon01 : /etc/sysconfig/networks-scripts/ifcfg-eth0
 ---
 DEVICE=eth0
 ONBOOT=yes
@@ -568,7 +577,7 @@ HWADDR=52:54:00:ba:5a:db
 ```
 
 ```
-/etc/sysconfig/networks-scripts/ifcfg-eth1
+ceph-mon01 : /etc/sysconfig/networks-scripts/ifcfg-eth1
 ---
 DEVICE=eth1
 ONBOOT=yes
@@ -576,31 +585,192 @@ USERCTL=no
 BOOTPROTO=static
 IPADDR=10.3.1.10
 NETMASK=255.255.255.0
+GATEWAY=10.3.1.1
 HWADDR=52:54:00:3b:2c:3a
 ```
 
-
+```
+[root@ceph-mon01]# systemctl restart network
+```
 
 From above:
 
 ```
-# yum update
-# groupadd --system sudo
-# echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-# gpasswd -a hannes sudo
-# sed -i -e 's/^PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-# systemctl restart sshd
+[root@ceph-mon01]# yum update
+
+[root@ceph-mon01]# groupadd --system sudo
+[root@ceph-mon01]# echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+[root@ceph-mon01]# gpasswd -a hannes sudo
+
+[root@ceph-mon01]# sed -i -e 's/^PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+[root@ceph-mon01]# systemctl restart sshd
 ```
 
+Let's create a user called `cephdeploy` that has passwordless sudo rights and SSH Pubkey authentication:
 
-networking
+```
+[root@ceph-mon01]# useradd --create-home --groups sudo cephdeploy
+[root@ceph-mon01]# echo "ssh-rsa {{pubkey}} hannes" > /home/cephdeploy/.ssh/authorized_keys
+[root@ceph-mon01]# chmod -R go= /home/cephdeploy/.ssh/
+[root@ceph-mon01]# chown -R cephdeploy:cephdeploy /home/cephdeploy/
+```
 
-ssh keylogin + pwless sudo for user cephdeploy
-requiretty
+The following is necessary for `ceph-deploy` to work:
 
-firewall
+```
+[root@ceph-mon01]# echo 'Defaults:cephdeploy !requiretty' >> /etc/sudoers
+```
 
-SELinux
+Install Ceph:
+
+```
+[root@ceph-mon01]# yum install epel-release
+[root@ceph-mon01]# yum install ceph
+```
+
+Because we will use this VM as the base for the two OSD VMs, some cleanup is helpful:
+
+
+### Cloning the Machines
+
+Define two more machines in libvirt:
+
+```
+[root@hyper01] virsh vol-create-as --pool lvm-hyper01 --name virt-stg01 --capacity 10GiB --format raw
+[root@hyper01] virsh vol-create-as --pool lvm-hyper01 --name virt-stg02 --capacity 10GiB --format raw
+
+[root@hyper01] dd bs=4M status=progress if=/dev/vg.hyper01/virt-mon01 of=/dev/vg.hyper01/virt-stg01
+[root@hyper01] dd bs=4M status=progress if=/dev/vg.hyper01/virt-mon01 of=/dev/vg.hyper01/virt-stg02
+```
+
+Domain definitions:
+
+```
+~/domain-ceph-stg01.xml
+---
+<domain type='kvm'>
+  <name>ceph-stg01</name>
+  <memory unit='KiB'>1048576</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <os>
+    <type arch='x86_64'>hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+  </features>
+  <clock offset='utc'>
+    <timer name='rtc' tickpolicy='catchup'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <disk type='volume' device='disk'>
+      <driver name='qemu' type='raw' cache='none' io='native' discard='unmap'/>
+      <source pool='lvm-hyper01' volume='virt-stg01'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+    <interface type='network'>
+      <source network='cluster'/>
+      <model type='virtio'/>
+      <driver name='vhost'/>
+    </interface>
+    <interface type='network'>
+      <source network='storage'/>
+      <model type='virtio'/>
+      <driver name='vhost'/>
+    </interface>
+    <input type='tablet' bus='usb'/>
+    <input type='keyboard' bus='usb'/>
+    <channel type='spicevmc'>
+      <target type='virtio'/>
+    </channel>
+    <graphics type='spice' autoport='yes' listen='127.0.0.1'>
+      <listen type='address' address='127.0.0.1'/>
+    </graphics>
+    <video>
+      <model type='qxl'/>
+    </video>
+  </devices>
+</domain>
+```
+
+Analogous for `ceph-stg02`.
+
+```
+[root@hyper01] virsh define domain-ceph-stg01.xml
+[root@hyper01] virsh define domain-ceph-stg02.xml
+
+[root@hyper01] virsh start ceph-stg01
+[root@hyper01] virsh start ceph-stg02
+```
+
+For each server:
+
+Update the hostname:
+
+```
+[root@ceph-stg01]# hostnamectl set-hostname ceph-stg01.storage.haktec.de
+[root@ceph-stg02]# hostnamectl set-hostname ceph-stg02.storage.haktec.de
+```
+
+Clean the SSH Host Keys:
+
+```
+[root@ceph-stg01]# rm -f /etc/ssh/ssh_host*
+[root@ceph-stg02]# rm -f /etc/ssh/ssh_host*
+```
+
+Adapt `/etc/sysconfig/network-scripts/ifcfg-eth0` and `/etc/sysconfig/network-scripts/ifcfg-eth1`.
+
+
+### Connectivity
+
+From the admin machine:
+
+```
+$ ping 10.3.1.10
+$ ping 10.3.1.20
+$ ping 10.3.1.21
+```
+
+```
+/etc/hosts
+---
+10.3.1.10 mon01
+10.3.1.20 stg01
+10.3.1.21 stg02
+```
+
+```
+~/.ssh/config
+---
+Host mon01
+  Hostname mon01
+  User cephdeploy
+  IdentityFile ~/.ssh/id_rsa_cephdeploy
+Host stg01
+  Hostname stg01
+  User cephdeploy
+  IdentityFile ~/.ssh/id_rsa_cephdeploy
+Host stg02
+  Hostname stg02
+  User cephdeploy
+  IdentityFile ~/.ssh/id_rsa_cephdeploy
+```
+
+```
+$ ssh mon01 'echo "10.3.1.20 stg01" | sudo tee -a /etc/hosts'
+$ ssh mon01 'echo "10.3.1.21 stg02" | sudo tee -a /etc/hosts'
+$ ssh stg01 'echo "10.3.1.10 mon01" | sudo tee -a /etc/hosts'
+$ ssh stg01 'echo "10.3.1.21 stg02" | sudo tee -a /etc/hosts'
+$ ssh stg02 'echo "10.3.1.10 mon01" | sudo tee -a /etc/hosts'
+$ ssh stg02 'echo "10.3.1.20 stg01" | sudo tee -a /etc/hosts'
+```
 
 ### Bootstrapping the Cluster
 
