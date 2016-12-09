@@ -1,7 +1,7 @@
-title: Ceph single node deployment
-date: 2016-09-08 22:44:43
-tags:
----
++++
+title = "CEPH Single Node Deployment"
+date = "2016-09-08 22:44:43+01:00"
++++
 
 # Overview
 

@@ -1,7 +1,8 @@
-title: Using The ELK Stack With Rsyslog
-date: 2015-09-27 18:06:15
-tags:
----
++++
+title = "Using The ELK Stack With Rsyslog"
+date = "2015-09-27T18:06:15+01:00"
++++
+
 This post will detail my setup that uses [rsyslog](http://www.rsyslog.com/) to send JSON-formatted log messages to an [ELK stack](https://www.elastic.co/webinars/introduction-elk-stack).
 
 #### The result

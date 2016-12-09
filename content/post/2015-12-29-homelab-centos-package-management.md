@@ -1,7 +1,7 @@
-title: homelab centos package management
-date: 2015-12-29 23:01:18
-tags:
----
++++
+title = "Homelab CentOS Package Management"
+date ="2015-12-29T23:01:18+01:00"
++++
 
 Keeping a dozen virtual machines up-to-date can be quite a task. In this post, I will show how to do it automatically and efficiently using yum-cron, a local mirror with rsync, and saltstack.
 

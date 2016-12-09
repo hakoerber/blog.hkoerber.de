@@ -1,7 +1,8 @@
-title: About This Blog
-date: 2015-09-27 12:08:15
-tags:
----
++++
+title = "About This Blog"
+date = "2015-09-27T12:08:15+01:00"
++++
+
 I am going to start this blog with a post about the blog itself. In my opinion, simple text files and command line tools is where it's at, so after some googling, I stumbled about Hexo, and just decided to try it out, because I wanted to get experience with blogging and the accompanying software.
 
 [Hexo](https://hexo.io/) is not actually a complete blogging platform, but simply a static site generator. It takes markdown files, and turns them into nice HTML files with CSS and everything. The big advantage of this approach is that you can write those markdown files in whichever way you like.
