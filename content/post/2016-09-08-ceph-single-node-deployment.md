@@ -1,5 +1,6 @@
 +++
 title = "CEPH Single Node Deployment"
+draft = true
 date = "2016-09-08 22:44:43+01:00"
 +++
 
@@ -23,8 +24,8 @@ I will not describe Ceph here, because the official website provides everything 
 
 We will be using the followings networks for our cluster:
 
-| network | name | VLAN | domain |
-| --- | --- | ---:| ---:|
+| network       | name | VLAN | domain |
+| ---           | --- | ---:| ---:|
 | `10.1.2.0/24` | `mgmt` | `20` | `mgmt.home.haktec.de` |
 | `10.1.3.0/24` | `storage` | `30` | `storage.home.haktec.de` |
 | `10.1.4.0/24` | `cluster` | isolated on the hypervisor |||

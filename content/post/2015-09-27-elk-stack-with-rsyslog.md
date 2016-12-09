@@ -9,7 +9,7 @@ This post will detail my setup that uses [rsyslog](http://www.rsyslog.com/) to s
 
 Let's start with an overview of what we get in the end:
 
-![ScreenShot](/static/2015-09-27-elk-stack-with-rsyslog/kibana.png)
+![screenshot-kibana](/img/2015-09-27-elk-stack-with-rsyslog/kibana.png)
 
 #### The log structure
 

@@ -11,7 +11,10 @@ I will also describe the setup of a "custom" RPM repository to distribute packag
 
 Downloading and applying updates with yum can be automated using yum-cron, which is more or less a wrapper around `yum` that runs peridodically with `cron` (hence the name). The setup is quite straightforward, the good old package+config+service triangle, and can be automated using salt:
 
-{% codeblock /srv/salt/base/states/yum-cron.sls %}
+```
+/srv/salt/base/states/yum-cron.sls
+```
+```yaml
 yum-cron:
   pkg.installed:
     - name: yum-cron
@@ -32,15 +35,18 @@ yum-cron:
       - pkg: yum-cron
     - watch_in:
       - service: yum-cron
-{% endcodeblock %}
+```
 
-{% codeblock lang:ini /srv/salt/base/files/yum-cron.conf %}
+```
+/srv/salt/base/files/yum-cron.conf
+```
+```ini
 [commands]
 update_cmd = default
 download_updates = yes
 apply_updates = yes
 random_sleep = 360
-{% endcodeblock %}
+```
 
 My actual "production" state can be found [here](https://github.com/whatevsz/salt-states-parameterized/tree/master/package/autoupdate), and a role tying it all together is available [here](https://github.com/whatevsz/salt-roles-parameterized/blob/master/autoupdate.sls), but the above still does what it should.
 
@@ -60,7 +66,10 @@ In addition to this, [EPEL](https://fedoraproject.org/wiki/EPEL) is also mirrore
 
 To make managing and updating the repositories easier, I wrote a small python script called [syncrepo](https://github.com/whatevsz/syncrepo). It reads a configuration file (`/etc/syncrepo.conf` in this example) and syncronizes all repositories defined there. The file format is easy to understand and looks like this:
 
-{% codeblock lang:json /etc/syncrepo.conf %}
+```
+/etc/syncrepo.conf
+```
+```json
 {
     "base": "/srv/www/packages",
     "repos": {
@@ -70,7 +79,7 @@ To make managing and updating the repositories easier, I wrote a small python sc
         "epel/7/x86_64": "ftp.fau.de"
     }
 }
-{% endcodeblock %}
+```
 
 `base` refers to the local filesystem path where all files will be stored. `repo` maps the paths of the repositories to the upstream mirrors they will be downloaded from.
 
@@ -89,7 +98,7 @@ This simply executes the following four commands (one for each repo):
     rsync $OPTIONS rsync://ftp.fau.de/centos/7/os/      /srv/www/packages/centos/7/os
     rsync $OPTIONS rsync://ftp.fau.de/epel/7/x86_64/    /srv/www/packages/epel/7/x86_64
 
-with OPTIONS being
+with `$OPTIONS` being
 
     --hard-links --out-format "%t %i %n%L " --stats --recursive --update --delete --delete-after --delay-updates
 
@@ -103,7 +112,10 @@ This installs nginx to serve `/srv/www/packages`, configures iptables and sets u
 
 For reference, here is an equivalent `nginx.conf`:
 
-{% codeblock lang:nginx /etc/nginx/nginx.conf %}
+```
+/etc/nginx/nginx.conf
+```
+```nginx
 user nginx;
 
 events {}
@@ -122,7 +134,7 @@ http {
         }
     }
 }
-{% endcodeblock %}
+```
 
 If using the salt role, nginx should already be running, otherwise
 
@@ -134,9 +146,12 @@ will do it manually. Note that when `/srv/www/packages` is a NFS mount and SELin
 
 Now, when `syncrepo` is done, the server is a functioning mirror, ready to distribute packages to clients. The last thing to do is automating a repo sync at a certain interval. Cron is perfect for this. The following line in `/etc/crontab` will run the sync each day at 22:00 with a random one hour max delay, which gives it enough time to finish before the clients retrieve their updates (which is between 0:00 and 6:00 as mentioned above):
 
-{% codeblock /etc/crontab %}
+```
+/etc/crontab
+```
+```
 0 22 * * * root perl -le 'sleep rand 60*60' ; /usr/local/bin/syncrepo --config /etc/syncrepo.conf >>/var/log/syncrepo.log 2>&1
-{% endcodeblock %}
+```
 
 That's it. The next thing will be configuring the other servers to use our new local mirror.
 
@@ -144,35 +159,47 @@ That's it. The next thing will be configuring the other servers to use our new l
 
 This task is quite simple: The `baseurl` setting has to be changed to point to the local mirror for all repositories in `/etc/yum.repos.d`. Changing
 
-{% codeblock lang:ini /etc/yum.repos.d/CentOS-Base.repo %}
+```
+/etc/yum.repos.d/CentOS-Base.repo
+```
+```ini
 baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
-{% endcodeblock %}
+```
 
 or
 
-{% codeblock lang:ini /etc/yum.repos.d/CentOS-Base.repo %}
+```
+/etc/yum.repos.d/CentOS-Base.repo
+```
+```ini
 mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infr
-{% endcodeblock %}
+```
 
 to
 
-{% codeblock lang:ini /etc/yum.repos.d/CentOS-Base.repo %}
+```
+/etc/yum.repos.d/CentOS-Base.repo
+```
+```ini
 baseurl=http://pkg01.lab/centos/$releasever/os/$basearch/
-{% endcodeblock %}
+```
 
 does the trick for the `base` repo, and the other repositories are similar. Of course it is super tedious to do this for every single server, so let's use salt to automate the process. The `pkgrepo` state makes this possible:
 
-{% codeblock %}
+```yaml
 repo-base:
   pkgrepo.managed:
     - name: base
     - humanname: CentOS-$releasever - Base
     - baseurl: http://pkg01.lab/centos/$releasever/os/$basearch/
-{% endcodeblock %}
+```
 
 The tricky part is integrating this with reclass. First, the file for `pkg01.lab` has to be extended to define all exported repositories:
 
-{% codeblock /srv/salt/base/inventory/nodes/pkg01.lab.yml %}
+```
+/srv/salt/base/inventory/nodes/pkg01.lab.yml
+```
+```yaml
 applications:
   - roles.localrepo
 
@@ -189,18 +216,21 @@ parameters:
           url: centos/$releasever/extras/$basearch
       epel:
           url: epel/$releasever/$basearch
-{% endcodeblock %}
+```
 
 Then, the mirror will be "advertised" to all servers on the `.lab` domain:
 
-{% codeblock /srv/salt/base/inventory/classes/domain/lab.yml %}
+```
+/srv/salt/base/inventory/classes/domain/lab.yml
+```
+```yaml
 parameters:
   domain:
     lab:
       applications:
         localrepo:
           servers: $<aggregate_list("lab" in node.get('domain', {}).keys() and node.get('applications', {}).get('localrepo', None) is not None; dict(name=node['hostname'], repos=node['applications']['localrepo'].get('repos', [])))>
-{% endcodeblock %}
+```
 
 Now, the `repos` role (from [here](https://github.com/whatevsz/salt-roles-parameterized) [[direct link](https://raw.githubusercontent.com/whatevsz/salt-roles-parameterized/master/repos.sls)]) parses this information and passes it to the relevant states.
 
@@ -233,7 +263,10 @@ Now, set up the directory structure for building the package and get the code:
 
 A Makefile is used to call fpm:
 
-{% codeblock lang:Makefile /var/build/syncrepo/Makefile %}
+```
+/var/build/syncrepo/Makefile
+```
+```make
 VERSION=1.0
 DESCRIPTION="Script to create and maintain a local yum package repository"
 URL=https://github.com/whatevsz/syncrepo
@@ -256,7 +289,7 @@ package:
     --config-files /etc/ \
     ./upstream/syncrepo=/usr/bin/ \
     ./upstream/repos.example=/etc/syncrepo.conf
-{% endcodeblock %}
+```
 
 A simple
 
@@ -272,7 +305,10 @@ The last thing that has to be done on the server is building the repository meta
 
 To make the other servers use the repo, they have to know about it. Let's make salt do this. First, we again have to "advertise" the repo in reclass:
 
-{% codeblock /srv/salt/base/inventory/nodes/pkg01.lab.yml %}
+```
+/srv/salt/base/inventory/nodes/pkg01.lab.yml
+```
+```yaml
 parameters:
   applications:
     localrepo:
@@ -281,7 +317,7 @@ parameters:
         ...
         custom:
           url: custom/centos/$releasever/$basearch
-{% endcodeblock %}
+```
 
 After the next salt run, all servers will be able to access the custom repo, and we can install `syncrepo` the "clean" way with
 
