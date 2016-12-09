@@ -14,6 +14,7 @@ Downloading and applying updates with yum can be automated using yum-cron, which
 ```
 /srv/salt/base/states/yum-cron.sls
 ```
+
 ```yaml
 yum-cron:
   pkg.installed:
