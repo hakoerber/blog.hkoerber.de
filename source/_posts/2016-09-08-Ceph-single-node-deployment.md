@@ -32,7 +32,7 @@ We will be using the followings networks for our cluster:
 | IP | host |
 | --- | --- |
 | `10.1.{3,4}.11-` | Ceph monitors, the first one being `.11`, second one `.12`, and so on |
-| `10.1.{3,4}.21-` | Ceph storage servers, same scheme as above |
+| `10.1.{3,4}.21-` | Ceph storage servers, same scheme as above, but from `.21` |
 
 | IP | host |
 | --- | --- |
@@ -129,7 +129,7 @@ This is simply the IP address of the Cobbler host, used by booting clients, for 
 The password hash can be produced like this:
 
 ```
-$ python3 -c 'import crypt; print(crypt.crypt("cleartext", crypt.mksalt(crypt.METHOD_SHA512)))'
+$  python3 -c 'import crypt; print(crypt.crypt("cleartext", crypt.mksalt(crypt.METHOD_SHA512)))'
 ```
 
 Start cobbler and do a first `sync`:
@@ -249,7 +249,7 @@ Some global variables, e.g. SSH keys, need to be set. This is done in the profil
 ```
 [root@admin]# cobbler profile edit \
     --name=centos7-x86_64 \
-    --ksmeta=--ksmeta='rootpw={hashed_password} sshkey={ssh_pubkey} me=hannes'
+    --ksmeta='rootpw={hashed_password} sshkey={ssh_pubkey} me=hannes'
 ```
 
 The following will create a new system entry for the hypervisor:
@@ -268,7 +268,8 @@ Now, the physical machine is started, PXE boots and the installation finishes on
 
 ### Setting up the hypervisor
 
-Network configuration
+Using Ansible, we configure the network of the hypervisor. We bond `eno1` and `eno2` together,
+and enable access to the `mgmt` network (`VLAN 20`):
 
 ```
 hyper01 : /etc/sysconfig/networks-scripts/ifcfg-bond0
@@ -304,24 +305,30 @@ SLAVE=yes
 ```
 
 ```
-hyper01 : /etc/sysconfig/networks-scripts/ifcfg-bond0.30
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-bond0.20
 ---
-DEVICE=bond0.30
+DEVICE=bond0.20
 ONBOOT=yes
 BOOTPROTO=none
 TYPE=None
 VLAN=yes
 USERCTL=no
-BRIDGE=br-home
+BRIDGE=br-mgmt
 ```
 
 ```
-hyper01 : /etc/sysconfig/networks-scripts/ifcfg-br-home
+hyper01 : /etc/sysconfig/networks-scripts/ifcfg-br-mgmt
 ---
-DEVICE=br-home
+DEVICE=br-mgmt
 ONBOOT=yes
 TYPE=Bridge
 BOOTPROTO=dhcp
+```
+
+After this, the `network` service has to be restarted:
+
+```
+[root@hyper01]# systemctl restart network
 ```
 
 Check the RAID Setup:
