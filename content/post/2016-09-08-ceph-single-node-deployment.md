@@ -1,18 +1,17 @@
 +++
 title = "CEPH Single Node Deployment"
-draft = true
 date = "2016-09-08 22:44:43+01:00"
 +++
 
 # Overview
 
-This post describes the setup of a Ceph Storage Cluster on a single physical host. I wanted to try out Ceph at home, but hesitated, because it usually requires several physical boxes containing several disks to tap its full potential. Still, because the old virtualized ZFS setup proved quite complicated and inflexible, I decided to give Ceph a try. In the end, it still proved to be complicated, but offeres many unique benefits, such as easy storage expansion as well as efficient and fine-tuneable space usage.
+This post describes the setup of a [Ceph](https://ceph.com/) Storage Cluster on a single physical host. I wanted to try out Ceph at home, but hesitated, because it usually requires several physical boxes containing several disks to tap its full potential. Still, because the old virtualized ZFS setup proved quite complicated and inflexible, I decided to give Ceph a try. In the end, it still proved to be complicated, but offeres many unique benefits, such as easy storage expansion as well as efficient and fine-tuneable space usage.
 
 For this, we will run the Ceph daemons, mainly monitors and OSDs, in separate virtual machines managed by `libvirt`. The cluster will then provide RBDs to libvirt, used to store the other virtual machines.
 
-The whitebox is built with a Intel i3-4160 processor and 32GB of ECC RAM. The Supermicro motherboard has a dedicated IPMI port. Concerning storage, we got 2 SSDs with 128GB each, and two HDDs with 3TB capacity, respectively. The box also got 2 Intel Gigabit NICs, which will be set up in a bond configuration for high availability. The two SSDs will be set up in a RAID 1 and contain the hypervisor OS, the backing volumes for the virtual machines comprising the Ceph cluster, and the Ceph journals.
+The whitebox is built with a Intel i3-4160 processor and 32GB of ECC RAM. The Supermicro motherboard has a dedicated IPMI port. Concerning storage, we got 2 SSDs with 128GB each, and two HDDs with 3TB capacity, respectively. The box also has 2 Intel Gigabit NICs, which will be set up in a bond configuration for high availability. The two SSDs will be set up in a RAID 1 and contain the hypervisor OS, the backing volumes for the virtual machines comprising the Ceph cluster, and the Ceph journals.
 
-`CentOS 7` will be used both for the hypervisor and for all virtual machines.
+[CentOS](https://www.centos.org/) 7 will be used both for the hypervisor and for all virtual machines.
 
 At the end of this post, we will have a Ceph cluster running, consisting of 3 monitors and 2 OSDs, each OSD handling one of the HDDs.
 
@@ -26,25 +25,24 @@ We will be using the followings networks for our cluster:
 
 | network       | name | VLAN | domain |
 | ---           | --- | ---:| ---:|
-| `10.1.2.0/24` | `mgmt` | `20` | `mgmt.home.haktec.de` |
-| `10.1.3.0/24` | `storage` | `30` | `storage.home.haktec.de` |
-| `10.1.4.0/24` | `cluster` | isolated on the hypervisor |||
+| `10.10.20.0/24` | `mgmt` | `20` | `mgmt.haktec.de` |
+| `10.10.50.0/24` | `storage` | `50` | `storage.haktec.de` |
+| `10.10.200.0/24` | `cluster` | isolated on the hypervisor |||
 
 | IP | host |
 | --- | --- |
-| `10.1.{3,4}.11-` | Ceph monitors, the first one being `.11`, second one `.12`, and so on |
-| `10.1.{3,4}.21-` | Ceph storage servers, same scheme as above, but from `.21` |
+| `10.10.{50,200}.11-` | Ceph monitors, the first one being `.11`, second one `.12`, and so on |
+| `10.10.{50,200}.21-` | Ceph storage servers, same scheme as above, but from `.21` |
 
 | IP | host |
 | --- | --- |
-| `10.1.{2,3}.100` | Admin node |
-| `10.1.2.10` | hypervisor |
+| `10.10.20.81` | hypervisor |
 
 | hostname | host |
 | --- | --- |
-| `hyper01` | hypervisor |
-| `ceph-monXX` | Ceph monitors |
-| `ceph-stoXX` | Ceph storage servers |
+| `hyper01.mgmt.haktec.de` | hypervisor |
+| `ceph-monXX.storage.haktec.de` | Ceph monitors |
+| `ceph-stoXX.storage.haktec.de` | Ceph storage servers |
 
 ## Storage configuration
 
