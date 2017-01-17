@@ -1,0 +1,25 @@
+---
+sites:
+  - url: "https://github.com/whatevsz"
+    fa_icon: "fa-github"
+    name: github
+  - url: "https://gitlab.com/whatevsz"
+    fa_icon: "fa-gitlab"
+    name: gitlab
+  - url: "https://git.haktec.de"
+    fa_icon: "fa-git"
+    name: git
+  - url: "https://www.linkedin.com/in/hannes-k%C3%B6rber-479ab5122"
+    fa_icon: "fa-linkedin"
+    name: linkedin
+  - url: "https://www.xing.com/profile/Hannes_Koerber"
+    fa_icon: "fa-xing"
+    name: xing
+  - url: "https://twitter.com/whatevsz"
+    fa_icon: "fa-twitter"
+    name: twitter
+  - url: "mailto:hannes.koerber@gmail.com"
+    fa_icon: "fa-envelope"
+    name: mail
+  - url: "https://status.haktec.de"
+    fa_icon: "fa-plus-circle"

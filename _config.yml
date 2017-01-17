@@ -1,0 +1,55 @@
+title: Tech Ramblings
+
+author: hannes
+name: hannes
+
+locale: en-US
+timezone: Europe/Berlin
+encoding: utf-8
+
+url: "https://blog.haktec.de"
+
+# setting this to true breaks pagination
+safe: false
+
+show_drafts: false
+future: false
+unpublished: false
+lsi: true
+
+include:
+  - _pages
+
+markdown: kramdown
+theme: minimal-mistakes-jekyll
+liquid:
+  error_mode: strict
+
+# experimental
+incremental: false
+
+paginate: 10
+paginate_path: "/page:num"
+
+gems:
+  - jekyll-paginate
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: single
+      excerpt_separator: ""
+      sidebar: []
+      header:
+        overlay_color: "#222"
+
+      author_profile: true
+      read_time: false
+      comments: false
+      share: false
+      related: true
