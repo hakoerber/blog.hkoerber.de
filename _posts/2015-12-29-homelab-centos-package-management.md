@@ -45,7 +45,7 @@ apply_updates = yes
 random_sleep = 360
 ```
 
-My actual "production" state can be found [here](https://github.com/whatevsz/salt-states-parameterized/tree/master/package/autoupdate), and a role tying it all together is available [here](https://github.com/whatevsz/salt-roles-parameterized/blob/master/autoupdate.sls), but the above still does what it should.
+My actual "production" state can be found [here](https://github.com/hakoerber/salt-states-parameterized/tree/master/package/autoupdate), and a role tying it all together is available [here](https://github.com/hakoerber/salt-roles-parameterized/blob/master/autoupdate.sls), but the above still does what it should.
 
 That's it. yum-cron will update the system nightly at a random time between 0:00 and 6:00.
 
@@ -61,7 +61,7 @@ First we have to decide which repositories to mirror. Because all servers are ex
 
 In addition to this, [EPEL](https://fedoraproject.org/wiki/EPEL) is also mirrored because it contains some important packages.
 
-To make managing and updating the repositories easier, I wrote a small python script called [syncrepo](https://github.com/whatevsz/syncrepo). It reads a configuration file (`/etc/syncrepo.conf` in this example) and syncronizes all repositories defined there. The file format is easy to understand and looks like this:
+To make managing and updating the repositories easier, I wrote a small python script called [syncrepo](https://github.com/hakoerber/syncrepo). It reads a configuration file (`/etc/syncrepo.conf` in this example) and syncronizes all repositories defined there. The file format is easy to understand and looks like this:
 
 ```json
 {
@@ -104,7 +104,7 @@ with OPTIONS being
 
 to make updates as atomic as possible and give some sensible output.
 
-This is going to take a while. In the meantime, we can setup a webserver to serve those files over HTTP. I'm going to use nginx here. This can be done using the `repomirror` salt role from the [salt role collection](https://github.com/whatevsz/salt-roles-parameterized) ([direct link](https://raw.githubusercontent.com/whatevsz/salt-roles-parameterized/master/repomirror.sls)):
+This is going to take a while. In the meantime, we can setup a webserver to serve those files over HTTP. I'm going to use nginx here. This can be done using the `repomirror` salt role from the [salt role collection](https://github.com/hakoerber/salt-roles) ([direct link](https://raw.githubusercontent.com/hakoerber/salt-roles/master/repomirror.sls)):
 
 ```shell
 root[~]# salt-call state.sls roles.repomirror
@@ -217,7 +217,7 @@ parameters:
           servers: $<aggregate_list("lab" in node.get('domain', {}).keys() and node.get('applications', {}).get('localrepo', None) is not None; dict(name=node['hostname'], repos=node['applications']['localrepo'].get('repos', [])))>
 ```
 
-Now, the `repos` role (from [here](https://github.com/whatevsz/salt-roles-parameterized) [[direct link](https://raw.githubusercontent.com/whatevsz/salt-roles-parameterized/master/repos.sls)]) parses this information and passes it to the relevant states.
+Now, the `repos` role (from [here](https://github.com/hakoerber/salt-roles) [[direct link](https://raw.githubusercontent.com/hakoerber/salt-roles/master/repos.sls)]) parses this information and passes it to the relevant states.
 
 This *would* even work with multiple mirrors exporting different repositories (the logic is there) to form kind of a high availability mirror cluster, but fails because the `pkgrepo` state ignores all URLs for `baseurl` except the first one, even though multiple URLs are supported by yum (see `yum.conf(5)`). Anyways, when using only a single mirror (which should be enough), it works as intended.
 
@@ -249,7 +249,7 @@ build[~]$ mkdir syncrepo
 build[~]$ mkdir syncrepo/package
 build[~]$ mkdir syncrepo/upstream
 build[~]$ cd syncrepo/upstream
-build[~]$ git clone https://github.com/whatevsz/syncrepo
+build[~]$ git clone https://github.com/hakoerber/syncrepo
 ```
 
 A Makefile is used to call fpm:
@@ -257,7 +257,7 @@ A Makefile is used to call fpm:
 ```makefile
 VERSION=1.0
 DESCRIPTION="Script to create and maintain a local yum package repository"
-URL=https://github.com/whatevsz/syncrepo
+URL=https://github.com/hakoerber/syncrepo
 
 .PHONY: package
 package:

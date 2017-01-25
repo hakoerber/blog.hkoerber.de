@@ -1,6 +1,6 @@
 ---
 sites:
-  - url: "https://github.com/whatevsz"
+  - url: "https://github.com/hakoerber"
     fa_icon: "fa-github"
     name: github
   - url: "https://gitlab.com/whatevsz"

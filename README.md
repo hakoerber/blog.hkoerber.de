@@ -7,7 +7,7 @@ Build requirements (Fedora 25):
 ```
 
 ```
-$ git clone https://github.com/whatevsz/blog.haktec.de.git blog
+$ git clone https://github.com/hakoerber/blog.haktec.de.git blog
 $ cd blog
 $ bundle install
 $ bundle exec jekyll serve .
