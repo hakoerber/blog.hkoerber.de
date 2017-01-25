@@ -2,6 +2,8 @@
 title: Homelab CentOS Package Management
 date: 2015-12-29T23:01:18+01:00
 tags: homelab package yum saltstack
+excerpt: >
+    Using a local package repository and automating updates of a dozen machines
 ---
 
 {% include toc %}

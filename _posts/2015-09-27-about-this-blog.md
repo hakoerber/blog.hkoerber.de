@@ -2,6 +2,7 @@
 title: About This Blog
 date: 2015-09-27T12:08:15+01:00
 tags: meta hexo nginx
+excerpt: How this blog is run
 ---
 
 {% include toc %}

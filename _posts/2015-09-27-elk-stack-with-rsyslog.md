@@ -2,6 +2,7 @@
 title: Using The ELK Stack With Rsyslog
 date: 2015-09-27T18:06:15+01:00
 tags: homelab logging elk elasticsearch logstash rsyslog json grok
+excerpt: Combining Rsyslog, Logstash and Kibana to make nice logging dashboards
 ---
 
 {% include toc %}

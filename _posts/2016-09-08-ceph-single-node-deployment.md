@@ -2,11 +2,10 @@
 title: CEPH Single Node Deployment
 date: 2016-09-08 22:44:43+01:00
 tags: homelab ceph cobbler ansible libvirt
+excerpt: Setting up a CEPH cluster on a single host for testing purposes
 ---
 
 {% include toc %}
-
-This post describes the setup of a Ceph Storage Cluster on a single physical host.
 
 I wanted to try out Ceph at home, but hesitated, because it usually requires several physical boxes containing several disks to tap its full potential. Still, because the old virtualized ZFS setup proved quite complicated and inflexible, I decided to give Ceph a try. In the end, it still proved to be complicated, but offeres many unique benefits, such as easy storage expansion as well as efficient and fine-tuneable space usage.
 
