@@ -1,0 +1,74 @@
+==================================================================
+https://keybase.io/hakoerber
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://haktec.de
+  * I am hakoerber (https://keybase.io/hakoerber) on keybase.
+  * I have a public key with fingerprint D029 3DA4 F7B6 779C F5A6  21F6 078A 167A 8741 BD30
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01012985d0f7ed5fbabd746d92b46bcd2a1b7a45ee530a322c030cef6e1efc7620c60a",
+      "fingerprint": "d0293da4f7b6779cf5a621f6078a167a8741bd30",
+      "host": "keybase.io",
+      "key_id": "078a167a8741bd30",
+      "kid": "01012985d0f7ed5fbabd746d92b46bcd2a1b7a45ee530a322c030cef6e1efc7620c60a",
+      "uid": "5b29581550ee2fc0955482e532862619",
+      "username": "hakoerber"
+    },
+    "service": {
+      "hostname": "haktec.de",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1503007791,
+  "expire_in": 157680000,
+  "prev": "dbbd8e670640574c21f08bc2891956b52ae463e410b04511f0e65d9bfae97263",
+  "seqno": 3,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owGtUmtMFFcYXZ7hJY8oD6GrMG3VKiUzs/Pc9AWVbCO6UmlBCsk6d+YuTIAd2BkX
+KAFK5KFg6RasFS01lYLYAmpSSsSEUCxFpWKomMa0AsEiwUZayjuI7Yyt6Y/+7f1z
+c88959zznVznOjedj4vy4ocV4qvEfZfBaaBLPb4htggBklCIGIuQLPhkg9kClBVL
+liggRgTFUAxnGVJArTQUSCvggEATlMDigKAAL+AcBmiOICEkDShnwHEeNaA8tFIQ
+g1aepnCUp1AOiUasoi0D2nPtok1RbQUUZw0CR1hpQNE0y1tJjsIxK4XSDIdRNMfQ
+BAYEA6oKMyVZU6jhACfDGFFSMfVg+Tvef/n/c+6DT+xIgLMkg5EkCiFu5VGWJAkG
+V7U4Q+EUxmpEGdptXA5U2ZlclgTtANqR4mhEhR0iD7VmtVH+pSiQjxGgqsy1S4rE
+S9karCi5slGTKYW5Gi8fAss/DhYg2gS1RVXhgHZZlGyIEVOZvCJqlhipToCqZWLR
+CCzIFe3QImoMkqYYVF3aO9ChdQ+AwECKRpMpAiVpgleLRxnA4wyLsSQFSJyDBGWA
+BIYClCAx9RZSpMACKwdZGqcMiDZUnk1CjAY1J5ehespiho1TDtohUuxzxNXgrnPx
+0elDotw7xwJqLztmd8WnY2VPf56Hq/btdD7egU+R7s6AR7419kBpOCnljt4vsspt
+IiXqE2RkN9UeR92t7ne6XCy60mNeae7c6fwjonljxfd7y++XjDALv5YdHlN+t83m
+xG/7WioIPvPpmU7no5W3rtyq6/XcD7ad93OPaFixTYw05i+1fPnt1m9Obt59avjt
+d3POnUj78fTN1sWkvc8l3Gufeqlt3u1G0W81w/Wmyexuc2se8pHt0LG2hj8fH5og
+Cj7rS07vPzAdOno7BnAP5FMbPQjrDeNy/dVkT6TB6d0wWpnjlxRmWQ3pcF6+uWDK
+3NezQ3+yNmH7T7sqQvznzV7XU96YS9Ujien1v5iuVh0YMO+ZN3WVVh9JHBzP8H1Q
+8NixWJ49UHy7vSlVaBsc8H8tPL/f4+NVX2bhQp1ny0Nn5VfbrwXfiq+NU9ioSyOx
+WEQkYajpWvUZ35LgPHo2cO2Dxq0l5L6higGv6VjT4b6Hrwd9UeC9J+3NyMWhiB86
+Wp7RN7qb5sqFtHe6t8QXySeqvwvbWZlX2uefNxY+FDwQYF5XFROS3NtPbNDdewGE
+LScueTYI9sK60vfw41O8+dh8c8np0Cb/nwPlppd35EcmBwiOIK+6S/rnG+fCj34+
+ezF0/O4ME7Q5eFPAJnnUUZi1dGE0cH305J2ujvVnlZxW/fvnyiYLF6aMGcP+1+NL
+1/abXV9Zi7tme3amF51ZPi91T6fUh/eExgz9BQ==
+=3HgS
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/hakoerber
+
+==================================================================
+
+
