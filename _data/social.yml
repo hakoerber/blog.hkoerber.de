@@ -1,25 +1,34 @@
 ---
 sites:
+  - fa_icon: fa-map-marker
+    name: Ansbach, Germany
   - url: "https://github.com/hakoerber"
     fa_icon: "fa-github"
-    name: github
+    name: Github
   - url: "https://gitlab.com/whatevsz"
     fa_icon: "fa-gitlab"
-    name: gitlab
-  - url: "https://git.haktec.de"
+    name: Gitlab
+  - url: "https://code.haktec.de/explore/projects"
     fa_icon: "fa-git"
-    name: git
+    name: Code
   - url: "https://www.linkedin.com/in/hannes-k%C3%B6rber-479ab5122"
-    fa_icon: "fa-linkedin"
-    name: linkedin
+    fa_icon: "fa-linkedin-square"
+    name: LinkedIn
   - url: "https://www.xing.com/profile/Hannes_Koerber"
-    fa_icon: "fa-xing"
-    name: xing
+    fa_icon: "fa-xing-square"
+    name: Xing
   - url: "https://twitter.com/whatevsz"
-    fa_icon: "fa-twitter"
-    name: twitter
+    fa_icon: "fa-twitter-square"
+    name: Twitter
+  - url: "https://keybase.io/hakoerber"
+    fa_icon: "fa-lock"
+    name: Keybase
   - url: "mailto:hannes.koerber@gmail.com"
     fa_icon: "fa-envelope"
-    name: mail
+    name: E-Mail
   - url: "https://status.haktec.de"
     fa_icon: "fa-plus-circle"
+    name: Status
+  - url: "https://blog.haktec.de/resume"
+    fa_icon: "fa-file-text-o"
+    name: Resume
