@@ -37,6 +37,7 @@ GEM
       jekyll (~> 3.3)
     jekyll-gist (1.4.0)
       octokit (~> 4.2)
+    jekyll-graphviz (0.1.0)
     jekyll-paginate (1.1.0)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
@@ -93,10 +94,11 @@ DEPENDENCIES
   classifier-reborn
   jekyll (= 3.3.1)
   jekyll-feed (~> 0.6)
+  jekyll-graphviz
   minimal-mistakes-jekyll
 
 RUBY VERSION
-   ruby 2.4.0p0
+   ruby 2.4.1p111
 
 BUNDLED WITH
    1.13.7
