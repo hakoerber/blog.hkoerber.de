@@ -2,6 +2,9 @@
 sites:
   - fa_icon: fa-map-marker
     name: Ansbach, Germany
+  - url: "https://www.tradebyte.com/"
+    fa_icon: " fa-suitcase"
+    name: Tradebyte Software GmbH
   - url: "https://github.com/hakoerber"
     fa_icon: "fa-github"
     name: Github
@@ -9,7 +12,7 @@ sites:
     fa_icon: "fa-gitlab"
     name: Gitlab
   - url: "https://code.haktec.de/explore/projects"
-    fa_icon: "fa-git"
+    fa_icon: "fa-code"
     name: Code
   - url: "https://www.linkedin.com/in/hannes-k%C3%B6rber-479ab5122"
     fa_icon: "fa-linkedin-square"
