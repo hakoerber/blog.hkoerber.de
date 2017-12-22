@@ -17,4 +17,5 @@ preview: build
 
 .PHONY: publish
 publish: build
-	rsync --delete -ri ./_site/ 10.10.10.91:/var/lib/blog/public
+	rsync --delete -ri --rsync-path="sudo rsync" ./_site/ haktec.de:/srv/www/blog.haktec.de/
+	ssh haktec.de 'sudo restorecon -r -v /srv/www/blog.haktec.de'
