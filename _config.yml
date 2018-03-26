@@ -7,8 +7,6 @@ locale: en-US
 timezone: Europe/Berlin
 encoding: utf-8
 
-url: "https://blog.haktec.de"
-
 # setting this to true breaks pagination
 safe: false
 

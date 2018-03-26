@@ -1,3 +1,5 @@
+TARGET ?= development
+
 .PHONY: setup
 setup:
 	bundle install
@@ -8,7 +10,7 @@ develop:
 
 .PHONY: build
 build:
-	bundle exec jekyll build
+	bundle exec jekyll build --config=./_config.yml,./_config.$(TARGET).yml
 
 .PHONY: preview
 preview: build
