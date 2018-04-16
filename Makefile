@@ -3,11 +3,11 @@ APPNAME := hakoerber/blog-de-haktec
 PUSHURL := $(REGISTRY)/$(APPNAME)
 
 .PHONY: all
-all: | build-image build-image-push image image-push
+all: | build-image build-image-push build image image-push
 
 .PHONY: build-image
 build-image:
-	sudo docker build --tag hakoerber/jekyll-build -f ./build/Dockerfile ./build/
+	sudo docker build --tag docker.io/hakoerber/jekyll-build -f ./build/Dockerfile ./build/
 
 .PHONY: build-image-push
 build-image-push:
@@ -15,7 +15,7 @@ build-image-push:
 
 .PHONY: build
 build:
-	sudo docker run --rm -v $$PWD:/data --workdir /data hakoerber/jekyll-build bundle exec jekyll build --config=./_config.yml,./_config.production.yml
+	sudo docker run --rm -v $$PWD:/data:Z --workdir /data hakoerber/jekyll-build bundle exec jekyll build --config=./_config.yml,./_config.production.yml
 	sudo chown $$(id -u):$$(id -g) -R ./_site
 
 .PHONY: image
