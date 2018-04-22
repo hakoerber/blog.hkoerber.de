@@ -4,5 +4,6 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
+      - apk update
+      - apk add make git
       - TARGET=production make
-
