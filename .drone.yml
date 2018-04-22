@@ -1,9 +1,16 @@
 pipeline:
   build:
-    image: docker:17.12.1
+    image: registry.haktec.de/jekyll:86e0546618060dc5c7d00ff66ce218022768d4a0
+    environment:
+      TARGET: production
+    commands:
+      - make build
+  package:
+    image: registry.haktec.de/docker:2bf92189803126ca18eb9dc75ae689ffc6319ffa
+    environment:
+      TARGET: production
+    commands:
+      - make image
+      - make push
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - apk update
-      - apk add make git
-      - TARGET=production make
