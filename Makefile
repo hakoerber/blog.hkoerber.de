@@ -2,12 +2,22 @@ REGISTRY := registry.haktec.de
 APPNAME := blog-de-haktec
 PUSHURL := $(REGISTRY)/$(APPNAME)
 
+BUILD_CONTAINER := $(REGISTRY)/jekyll
+
 .PHONY: all
 all: | build image image-push
 
 .PHONY: build
 build:
-	docker run --rm -v $$PWD:/data:Z --workdir /data hakoerber/jekyll-build bundle exec jekyll build --config=./_config.yml,./_config.$(TARGET).yml
+	docker pull $(BUILD_CONTAINER)
+	docker run \
+		--rm \
+		-v $$PWD:/data:Z \
+		--workdir /data \
+		$(BUILD_CONTAINER) \
+		bundle exec \
+			jekyll build \
+			--config=./_config.yml,./_config.$(TARGET).yml
 	# chown $$(id -u):$$(id -g) -R ./_site
 
 .PHONY: image
