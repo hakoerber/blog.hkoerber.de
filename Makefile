@@ -10,7 +10,7 @@ build-production:
 		--net host \
 		-v $(PWD):/workdir \
 		-w /workdir \
-		registry.hkoerber.de/hugo:f216de6b127620641bcaf1d28fe16bf1ea2db884 \
+		registry.hkoerber.de/hugo:latest \
 		/app/bin/hugo \
 			--baseURL=https://hkoerber.de/ \
 			--cleanDestinationDir \
@@ -44,7 +44,7 @@ preview:
 		--net host \
 		-v $(PWD):/workdir \
 		-w /workdir \
-		registry.hkoerber.de/hugo:f000054616d7789202b06872a6535bcb9fd500c9 \
+		registry.hkoerber.de/hugo:latest \
 		hugo serve \
 			--watch \
 			--buildDrafts
